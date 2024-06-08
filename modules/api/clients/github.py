@@ -14,3 +14,20 @@ class GitHub:
         body = r.json()
 
         return body
+    
+    def get_emoji_url(self, emoji_name):
+        r = requests.get("https://api.github.com/emojis")
+        body = r.json()
+        return body.get(emoji_name)
+
+    def get_commits(self, OWNER, REPO):
+        list= requests.get(f"https://api.github.com/repos/{OWNER}/{REPO}/commits") 
+        body = list.json()
+
+        return body
+    
+    def count_commits(self, OWNER, REPO):
+        list_commits = self.get_commits(OWNER, REPO)
+
+        return len(list_commits)
+    
