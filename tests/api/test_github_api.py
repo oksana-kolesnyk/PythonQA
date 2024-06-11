@@ -32,13 +32,13 @@ def test_repo_with_single_char_be_found(github_api):
     assert r['total_count'] != 0 # Перевірити, що тіло відповіді від сервера має атрибут total_count, значення якого має не дорівнювати 0.
 
 
-@pytest.mark.hw
+@pytest.mark. api_hw
 def test_emojis_exists(github_api):
     r = github_api.get_emoji_url("100")
     assert r == "https://github.githubassets.com/images/icons/emoji/unicode/1f4af.png?v8"
 
 
-@pytest.mark.hw
+@pytest.mark. api_hw
 def test_email_and_commit_can_be_found(github_api):
     list = github_api.get_commits("oksana-kolesnyk", "PythonQA")
    
@@ -47,7 +47,7 @@ def test_email_and_commit_can_be_found(github_api):
     assert commit__email == 'oksanakolesnyk82@gmail.com'
     assert commit_message == 'search_repo and get_user for  github_api'
 
-@pytest.mark.hw
+@pytest.mark. api_hw
 def check_that_list_is_not_empty(github_api):
     amount = github_api.count_commits("oksana-kolesnyk", "PythonQA")
     assert amount != 0
