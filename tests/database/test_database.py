@@ -5,7 +5,7 @@ import datetime
 
 
 @pytest.mark.database
-def test_database_connection(db_connection): # Використовує фікстуру github_api
+def test_database_connection(db_connection): # fixture using
     db_connection.test_connection()
 
 
