@@ -2,7 +2,7 @@ from modules.ui.page_objects.base_page import BasePage
 from selenium.webdriver.common.by import By
 
 
-class SignInPage(BasePage): # наслідування класу BasePage
+class SignInPage(BasePage):
     URL = 'https://github.com/login'
 
     def __init__(self) -> None:

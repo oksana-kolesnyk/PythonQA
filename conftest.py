@@ -37,6 +37,7 @@ def github_api_client():
 @pytest.fixture
 def db_connection(): 
     db = Database()   
+    yield db
     db.close_connection()  # close connection with database
 
 @pytest.fixture

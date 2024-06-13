@@ -1,6 +1,5 @@
 import sqlite3
 from sqlite3 import IntegrityError, OperationalError
-import datetime
 
 
 class Database():
@@ -73,7 +72,7 @@ class Database():
             print(f"Error: {e}")
             raise
 
-    def add_new_order(self, id, customer_id, product_id, order_date):
+    def insert_replace_new_order(self, id, customer_id, product_id, order_date):
         try:
             formatted_date = order_date.strftime("%Y-%m-%d") 
             query = f"INSERT OR REPLACE INTO orders (id, customer_id, product_id, order_date) \
