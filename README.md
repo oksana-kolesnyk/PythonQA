@@ -4,19 +4,20 @@ It's my first project on Python. I did it as a final task for the QA Automation 
 
 ## Structure of the project:
 
-|--config
-    |--config.py
-|--modules
-    |--api
-    |--common
-    |--ui
-|--tests
-    |--api
-    |--database
-    |--ui
-|--.gitignore
-|--become_qa_auto.db
-|--conftest.py
+```plaintext
+├──config
+    ├──config.py
+├──modules
+    ├──api
+    ├──common
+    ├──ui
+├──tests
+    ├──api
+    ├──database
+    ├──ui
+├──.gitignore
+├──become_qa_auto.db
+├──conftest.py
 |--pytest.ini
 |--README.md
 
