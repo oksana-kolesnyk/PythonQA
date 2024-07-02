@@ -3,8 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
 
-class RozetkaMainPage(BasePage): 
-    URL = 'https://rozetka.com.ua/ua/'
+class RozetkaMainPage(BasePage):
+    URL = "https://rozetka.com.ua/ua/"
 
     def __init__(self) -> None:
         super().__init__()
@@ -16,5 +16,3 @@ class RozetkaMainPage(BasePage):
         search_form = self.driver.find_element(By.NAME, "search")
         search_form.send_keys(search_text)
         search_form.send_keys(Keys.RETURN)
-
-

@@ -3,7 +3,7 @@ from selenium.webdriver.common.by import By
 
 
 class SignInPage(BasePage):
-    URL = 'https://github.com/login'
+    URL = "https://github.com/login"
 
     def __init__(self) -> None:
         super().__init__()
@@ -22,5 +22,4 @@ class SignInPage(BasePage):
 
         btn_elem.click()
 
-    def check_title(self, expected_title):
-        return self.driver.title == expected_title
+    
