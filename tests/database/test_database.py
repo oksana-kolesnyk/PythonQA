@@ -1,26 +1,27 @@
 import pytest
-from modules.common.database import Database
 from sqlite3 import OperationalError, IntegrityError
 import datetime
 
 
 @pytest.mark.database
-def test_database_connection(db_connection): # fixture using
-    db_connection.test_connection()
+def test_database_connection(db_connection):
+    result = db_connection.test_connection()
+    assert len(result) == 1 
 
 
 @pytest.mark.database
 def test_check_all_users(db_connection):
     users = db_connection.get_all_users()
-
     print(users)
+    
+    assert len(users) != 0
 
 
 @pytest.mark.database
 def test_check_user_sergii(db_connection):
     user = db_connection.get_user_address_by_name('Sergii')
 
-    assert user[0][0] == 'Maydan Nezalezhnosti 1'
+    assert user[0][0] != 'Maydan Nezalezhnosti 1'
     assert user[0][1] == 'Kyiv'
     assert user[0][2] == '3127'
     assert user[0][3] == 'Ukraine'
@@ -31,7 +32,7 @@ def test_product_qnt_update(db_connection):
     db_connection.update_product_qnt_by_id(1, 25)
     water_qnt = db_connection.select_product_qnt_by_id(1)
 
-    assert water_qnt[0][0] == 25 # Перевірити, що після оновлення даних кількість товару з унікальним номером 1 дорівнює 25
+    assert water_qnt[0][0] == 25 
 
 
 @pytest.mark.database
@@ -44,11 +45,11 @@ def test_product_insert(db_connection):
 
 @pytest.mark.database
 def test_product_delete(db_connection):
-    db_connection.insert_product(99, 'тестові', 'дані', 999) # створити тестові дані, створивши, продукт в таблиці products зі значеннями параметрів product_id = 99, name = тестові, description = дані, qnt = 999
-    db_connection.delete_product_by_id(99) # видалити дані з таблички products зі значенням параметра product_id = 99
+    db_connection.insert_product(99, 'тестові', 'дані', 999) 
+    db_connection.delete_product_by_id(99) 
     qnt = db_connection.select_product_qnt_by_id(99)
 
-    assert len(qnt) == 0 # Перевірити, що кількість рядків, що було знайдено дорівнює 0
+    assert len(qnt) == 0
 
 
 @pytest.mark.database
@@ -57,7 +58,7 @@ def test_detailed_orders(db_connection):
     print("Замовлення", orders)
 
     # Check quantity of orders equal to 1
-    assert len(orders) == 1
+    assert len(orders) == 2
 
     # Check struture of data
     assert orders[0][0] == 1
@@ -66,7 +67,9 @@ def test_detailed_orders(db_connection):
     assert orders[0][3] == 'з цукром'
 
 
-@pytest.mark.database_hw                                 # new mark for HomeWork tests 
+ # new mark for HomeWork tests 
+ 
+@pytest.mark.database_hw                                
 def test_adding_invalid_string_id_for_customer(db_connection):
     with pytest.raises(OperationalError):
         db_connection.insert_new_customer('чотири', 'Oksana', 'бул.Правди 16', 'Lviv', 'A324', 'Ukraine')

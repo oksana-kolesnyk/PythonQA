@@ -4,18 +4,19 @@ from sqlite3 import IntegrityError, OperationalError
 
 class Database():
 
-    def __init__(self): # конструктор, в якому ініціалізовані два атрибути об’єкта
-        self.connection = sqlite3.connect(r'/Users/ksena/PythonQA/PythonQA' + r'/become_qa_auto.db') # об’єкт, який реалізує з'єднання з базою даних
+    def __init__(self):
+        self.connection = sqlite3.connect(r'/Users/ksena/PythonQA/PythonQA' + r'/become_qa_auto.db')
         self.cursor = self.connection.cursor()
 
     def close_connection(self):
         self.connection.close()
 
-    def test_connection(self): # Результатом виконання методу є виведена в термінал версія бази даних
+    def test_connection(self):
         sqlite_select_Query = "SELECT sqlite_version();"
         self.cursor.execute(sqlite_select_Query)
         record = self.cursor.fetchall()
         print(f"Connected successfully. SQLite Database Version is: {record}")
+        return record
     
     def get_all_users(self):
         query = "SELECT id, name, address, city, postalCode, country FROM customers"

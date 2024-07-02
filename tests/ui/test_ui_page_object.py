@@ -1,13 +1,13 @@
 import pytest
 from modules.ui.page_objects.sign_in_page import SignInPage
 from modules.ui.page_objects.rozetka_main_page import RozetkaMainPage
-from modules.ui.page_objects.rozetka_navushnyky_aksesuary_page import (RozetkaNavushnykyAksesuaryPage)
+from modules.ui.page_objects.rozetka_navushnyky_aksesuary_page import RozetkaNavushnykyAksesuaryPage
 
 
 @pytest.mark.ui
 def test_check_incorrect_username_page_object(page_creation):
     sign_in_page = SignInPage()
-    sign_in_page.driver = page_creation.driver  # receive driver from fixture
+    sign_in_page.driver = page_creation.driver  
     # open https://github.com/login
     sign_in_page.go_to()
     invalid_username = "page_object@gmail.com"
@@ -18,7 +18,9 @@ def test_check_incorrect_username_page_object(page_creation):
     assert sign_in_page.check_title("Sign in to GitHub · GitHub")
 
 
-@pytest.mark.ui_hw  # new mark for HomeWork tests
+# new mark for HomeWork tests
+
+@pytest.mark.ui_hw                                            
 def test_search_text_in_searchfield_page_object(page_creation):
     search_on_page = RozetkaMainPage()
     search_on_page.driver = page_creation.driver

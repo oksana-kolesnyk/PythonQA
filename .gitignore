@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+tests/database/__pycache__/test_database.cpython-311-pytest-8.2.1.pyc
+tests/api/__pycache__/test_http.cpython-311-pytest-8.2.1.pyc
 
 # Виключення файлів налаштувань редактора коду
 .vscode/
@@ -15,3 +17,4 @@ __pycache__/
 
 # Виключення .DS_Store файлів
 .DS_Store
+

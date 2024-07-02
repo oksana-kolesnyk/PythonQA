@@ -43,3 +43,16 @@ class GitHub:
 
         return len(list_commits)
     
+    def check_email_and_commit_by_user_and_by_repo(self, OWNER, REPO, expected_email, expected_message):
+        list = self.get_commits(OWNER, REPO)
+        quantity_of_all_commits = self.count_commits(OWNER, REPO)
+        commit_email = None
+        commit_message = None
+        for index in range(0, quantity_of_all_commits):
+            commit = list[index]
+            if commit["commit"]["author"]['email'] == expected_email and commit["commit"]["message"] == expected_message:
+                commit_email = commit["commit"]["author"]['email']
+                commit_message = commit["commit"]["message"]
+                break
+            
+        return commit_email, commit_message 
