@@ -1,6 +1,12 @@
-# PythonQA
+# PythonQ
+A
 
 It's my first project on Python. I did it as a final task for the QA Automation course that was held with the Prometheus platform and GlobalLogic support. This course aimed to study the basics of Python and automation testing (API, UI and Database testing).
+
+### Author:
+
+Oksana Kolesnyk
+
 
 ## Structure of the project:
 
@@ -20,11 +26,4 @@ It's my first project on Python. I did it as a final task for the QA Automation 
 ├──conftest.py
 ├──pytest.ini
 ├──README.md
-
-
-### Author:
-
-
-Oksana Kolesnyk
-
 
