@@ -21,6 +21,7 @@ It's my first project on Python. I did it as a final task for the QA Automation 
 ├──pytest.ini
 ├──README.md
 
+
 ### Author:
 
 Oksana Kolesnyk
