@@ -75,17 +75,34 @@ def test_that_list_is_not_empty(github_api_client):
 
 
 @pytest.mark.api_hw
-def test_check_email_and_commit_by_user_and_by_repo(github_api_client):
-    OWNER = "oksana-kolesnyk"
-    REPO = "PythonQA"
+def test_check_email_by_user_and_by_repo(github_api_client):
+    owner = "oksana-kolesnyk"
+    repo = "PythonQA"
     expected_email = 'oksanakolesnyk82@gmail.com'
     expected_message = 'search_repo and get_user for  github_api'
-    commit_email, commit_message = github_api_client.check_email_and_commit_by_user_and_by_repo(
-        OWNER,
-        REPO,
+
+    _, commit_message = github_api_client.check_email_and_commit_by_user_and_by_repo(
+        owner,
+        repo,
         expected_email,
-       expected_message,
+        expected_message,
+    )
+    
+    assert commit_message == expected_message
+
+
+@pytest.mark.api_hw
+def test_check_emailby_user_and_by_repo(github_api_client):
+    owner = "oksana-kolesnyk"
+    repo = "PythonQA"
+    expected_email = 'oksanakolesnyk82@gmail.com'
+    expected_message = 'search_repo and get_user for  github_api'
+
+    commit_email, _ = github_api_client.check_email_and_commit_by_user_and_by_repo(
+        owner,
+        repo,
+        expected_email,
+        expected_message,
     )
 
     assert commit_email == expected_email
-    assert commit_message == expected_message
