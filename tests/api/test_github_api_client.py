@@ -69,7 +69,7 @@ def test_emojis_exists_by_key(github_api_client):
 def test_that_list_is_not_empty(github_api_client):
     OWNER = "oksana-kolesnyk"
     REPO = "PythonQA"
-    amount = github_api_client.count_commits(OWNER, REPO)
+    amount = github_api_client._count_commits(OWNER, REPO)
 
     assert amount != 0
 
@@ -106,3 +106,23 @@ def test_check_emailby_user_and_by_repo(github_api_client):
     )
 
     assert commit_email == expected_email
+    
+    
+@pytest.mark.api_hw
+def test_check_emailby_user_and_by_repo_boolean(github_api_client):
+    owner = "oksana-kolesnyk"
+    repo = "PythonQA"
+    expected_email = 'oksanakolesnyk82@gmail.com'
+    expected_message = 'search_repo and get_user for  github_api'
+
+    result_of_matching = github_api_client.check_email_and_commit_by_user_and_by_repo_boolean(
+        owner,
+        repo,
+        expected_email,
+        expected_message,
+    )
+
+    if result_of_matching:
+        print("The commit with the email was found.")
+    else:
+        print("The commit was not found.")

@@ -8,7 +8,7 @@ class BasePage:
         self.driver = webdriver.Chrome(
             service=Service((ChromeDriverManager().install()))
         )
-        self.driver.maximize_window()
+      #  self.driver.maximize_window()
         
     def check_title(self, expected_title):
         return self.driver.title == expected_title

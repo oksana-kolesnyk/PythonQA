@@ -33,8 +33,8 @@ class GitHub:
         return body.get(emoji_key)
     
     def get_commits(self, owner, repo):
-        list = requests.get(f"https://api.github.com/repos/{owner}/{repo}/commits") 
-        body = list.json()
+        list_of_commits = requests.get(f"https://api.github.com/repos/{owner}/{repo}/commits") 
+        body = list_of_commits.json()
 
         return body
       
@@ -44,18 +44,25 @@ class GitHub:
         return len(list_commits)
     
     def check_email_and_commit_by_user_and_by_repo(self, owner, repo, expected_email, expected_message):
-        # Redesign so to have an answer on check itself
-        # create a copy of method
+        #a copy of method below
         list_commits = self.get_commits(owner, repo)
         quantity_of_all_commits = len(list_commits)
         commit_email = None
         commit_message = None
         
         for index in range(0, quantity_of_all_commits):
-            commit = list[index]
+            commit = list_commits[index]
             if commit["commit"]["author"]['email'] == expected_email and commit["commit"]["message"] == expected_message:
                 commit_email = commit["commit"]["author"]['email']
                 commit_message = commit["commit"]["message"]
                 break
             
         return commit_email, commit_message 
+
+    def check_email_and_commit_by_user_and_by_repo_boolean(self, owner, repo, expected_email, expected_message):
+        # Redesign so to have an answer on check itself
+        list_commits = self.get_commits(owner, repo)
+        
+        for commit in list_commits:
+            if commit["commit"]["author"]['email'] == expected_email and commit["commit"]["message"] == expected_message:
+                return True
