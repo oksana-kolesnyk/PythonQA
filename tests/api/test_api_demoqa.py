@@ -29,7 +29,6 @@ def test_check_id_of_deleted_user(demoqa_api):
     username = "Ksu3"
     password = "Ksu111111@"
     
-
     demoqa_api.delete_new_user(username, password)
     user_id = demoqa_api.get_user_id(username, password)
 

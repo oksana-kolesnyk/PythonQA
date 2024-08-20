@@ -33,9 +33,9 @@ class Demoqa:
                                auth=(username, password))
         response = response.json()
         token = response.get("token")
-        result = response.get("result")
+        status = response.get("status")
         
-        return token, result
+        return token, status
     
     def get_user_id(self, username, password):
         response = requests.get("https://demoqa.com/Account/v1/User", 
@@ -48,17 +48,24 @@ class Demoqa:
             print("Json error parsel or empty answer")
             return None
     
-        print( id_of_user)
+        print(id_of_user)
         return id_of_user
     
     def delete_new_user(self, username, password):
         uuid = self.get_user_id(username, password)
-        response = requests.delete(f"https://demoqa.com//Account/v1/User/{uuid}")
-        status_code = response.status_code
+        token, status = self.get_user_token(username, password)
         
-        if status_code == 200:
-            return True
-        return False
+        if status == "Success":
+            headers = {"Authorization": f"Bearer {token}"}
+            response = requests.delete(f"https://demoqa.com//Account/v1/User/{uuid}", headers=headers)
+            status_code = response.status_code
+        
+            if status_code == 200:
+                return True
+            return False
+        else:
+            print("Unable to authorize user for deletion")
+            return False
     
     
    
