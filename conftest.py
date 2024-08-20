@@ -2,6 +2,7 @@ import pytest
 from modules.api.clients.github import GitHub
 from modules.common.database import Database
 from modules.ui.page_objects.base_page import BasePage
+from modules.api.clients.demoqa import Demoqa
 
 
 class User:
@@ -45,3 +46,13 @@ def page_creation():
     page = BasePage()
     yield page
     page.driver.close()  # close the page 
+      
+@pytest.fixture
+def demoqa_api():
+    demo_api = Demoqa() 
+    username = "Ksu3"
+    password = "Ksu111111@"
+    
+    demo_api.create_new_user(username, password)
+    yield demo_api 
+    demo_api.delete_new_user(username, password)
