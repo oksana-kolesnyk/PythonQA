@@ -75,13 +75,13 @@ def test_that_list_is_not_empty(github_api_client):
 
 
 @pytest.mark.api_hw
-def test_check_email_by_user_and_by_repo(github_api_client):
+def test_get_email_by_user_and_by_repo(github_api_client):
     owner = "oksana-kolesnyk"
     repo = "PythonQA"
     expected_email = 'oksanakolesnyk82@gmail.com'
     expected_message = 'search_repo and get_user for  github_api'
 
-    _, commit_message = github_api_client.check_email_and_commit_by_user_and_by_repo(
+    _, commit_message = github_api_client.get_email_and_commit_by_user_and_by_repo(
         owner,
         repo,
         expected_email,
@@ -92,13 +92,13 @@ def test_check_email_by_user_and_by_repo(github_api_client):
 
 
 @pytest.mark.api_hw
-def test_check_emailby_user_and_by_repo(github_api_client):
+def test_get_check_emailby_user_and_by_repo(github_api_client):
     owner = "oksana-kolesnyk"
     repo = "PythonQA"
     expected_email = 'oksanakolesnyk82@gmail.com'
     expected_message = 'search_repo and get_user for  github_api'
 
-    commit_email, _ = github_api_client.check_email_and_commit_by_user_and_by_repo(
+    commit_email, _ = github_api_client.get_email_and_commit_by_user_and_by_repo(
         owner,
         repo,
         expected_email,
@@ -109,13 +109,13 @@ def test_check_emailby_user_and_by_repo(github_api_client):
     
     
 @pytest.mark.api_hw
-def test_check_emailby_user_and_by_repo_boolean(github_api_client):
+def test_check_emailby_user_and_by_repo(github_api_client):
     owner = "oksana-kolesnyk"
     repo = "PythonQA"
     expected_email = 'oksanakolesnyk82@gmail.com'
     expected_message = 'search_repo and get_user for  github_api'
 
-    result_of_matching = github_api_client.check_email_and_commit_by_user_and_by_repo_boolean(
+    result_of_matching = github_api_client.check_email_and_commit_by_user_and_by_repo(
         owner,
         repo,
         expected_email,
@@ -126,3 +126,5 @@ def test_check_emailby_user_and_by_repo_boolean(github_api_client):
         print("The commit with the email was found.")
     else:
         print("The commit was not found.")
+        
+    assert result_of_matching 

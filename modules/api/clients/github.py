@@ -43,7 +43,7 @@ class GitHub:
 
         return len(list_commits)
     
-    def check_email_and_commit_by_user_and_by_repo(self, owner, repo, expected_email, expected_message):
+    def get_email_and_commit_by_user_and_by_repo(self, owner, repo, expected_email, expected_message):
         #a copy of method below
         list_commits = self.get_commits(owner, repo)
         quantity_of_all_commits = len(list_commits)
@@ -59,10 +59,11 @@ class GitHub:
             
         return commit_email, commit_message 
 
-    def check_email_and_commit_by_user_and_by_repo_boolean(self, owner, repo, expected_email, expected_message):
+    def check_email_and_commit_by_user_and_by_repo   (self, owner, repo, expected_email, expected_message):
         # Redesign so to have an answer on check itself
         list_commits = self.get_commits(owner, repo)
         
         for commit in list_commits:
             if commit["commit"]["author"]['email'] == expected_email and commit["commit"]["message"] == expected_message:
                 return True
+            
