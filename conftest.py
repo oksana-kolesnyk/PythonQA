@@ -65,6 +65,8 @@ def demoqa_api_user():
     password = "Kse1111123@"
 
     demo_api_user.create_new_user(username, password)
+    demo_api_user.check_authorization_of_new_user()
+    demo_api_user.get_user_token()
     yield demo_api_user
     demo_api_user.delete_new_user()
 
