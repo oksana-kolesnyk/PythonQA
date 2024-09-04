@@ -4,6 +4,9 @@ from modules.common.database import Database
 from modules.ui.page_objects.base_page import BasePage
 from modules.api.clients.demoqa import Demoqa
 import random
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class User:
@@ -54,7 +57,9 @@ def page_creation():
 @pytest.fixture(scope="function")
 def demoqa_api():
     demo_api = Demoqa()
+    logging.info('Started')
     yield demo_api
+    logging.info('Finished')
 
 
 @pytest.fixture(scope="session")
@@ -64,9 +69,11 @@ def demoqa_api_user():
     username = f"{autotest}_Ksena"
     password = "Kse1111123@"
 
+    logging.info('Started')
     demo_api_user.create_new_user(username, password)
     demo_api_user.check_authorization_of_new_user()
     demo_api_user.get_user_token()
     yield demo_api_user
     demo_api_user.delete_new_user()
+    logging.info('Finished')
 

@@ -8,6 +8,8 @@ Create Authorization Token by calling /Account/v1/GenerateToken with credentials
 Call endpoint GET /Account/v1/User/{UUID} with user Token as Authorization Header (exact format: “Bearer Token”).
 Verify that username in Response Body corresponds to data provided on step 1
 """
+# Setting level of logging to Info
+logging.basicConfig(level=logging.INFO)
 
 
 class Demoqa:
@@ -26,13 +28,15 @@ class Demoqa:
             "https://demoqa.com/Account/v1/User",
             json={"userName": username, "password": password},
         )
+        new_user.raise_for_status()
+
         response_body = new_user.json()
         self.username = username
         self.password = password
 
         self.user_id = response_body["userID"]
+        logging.info(f"New User: {response_body}")
 
-        logging.info(f"new UserID is {self.user_id}")
         return response_body
 
     def check_new_user_status_code(self):
@@ -41,16 +45,10 @@ class Demoqa:
             "https://demoqa.com/Account/v1/User", auth=(self.username, self.password)
         )
         response.raise_for_status()
-
         status_code = response.status_code
+        logging.info(f"New user is created! Status code: {status_code}")
 
-        if status_code == 200:
-            print("New user is created!")
-            return True
-        else:
-            print(f"New user wasn't created! Status code: {status_code}")
-            return False
-
+        return True
 
     def check_authorization_of_new_user(self):
 
@@ -58,16 +56,10 @@ class Demoqa:
             "https://demoqa.com/Account/v1/Authorized",
             json={"userName": self.username, "password": self.password},
         )
-        status_code_of_autorization = r.status_code
-        print(status_code_of_autorization)
-        authorization_result = r.json()
-        
-        if status_code_of_autorization == 200:
-            print(f"Authorization response is {authorization_result}")
-            return True
-        else:
-            print("Authorization failed with status code: {status_code_of_autorization}")
-            return False
+        r.raise_for_status()
+        logging.info("User authorized successfully.")
+
+        return True
 
     def get_user_token(self):
 
@@ -75,8 +67,9 @@ class Demoqa:
             "https://demoqa.com/Account/v1/GenerateToken",
             json={"userName": self.username, "password": self.password},
         )
+        r.raise_for_status()
         response_token = r.json()
-        print(response_token)
+        logging.info(f"Response on token request: {response_token}")
 
         token = response_token.get("token")
         self.token = token
@@ -85,7 +78,6 @@ class Demoqa:
         token_result = response_token.get("result")
         self.token_result = token_result
 
-        print(f"Token is: {token}")
         return token
 
     def check_username_of_new_user(self):
@@ -94,16 +86,21 @@ class Demoqa:
 
         headers = {"Authorization": f"Bearer {token}"}
         r = requests.get(f"https://demoqa.com/Account/v1/User/{uuid}", headers=headers)
-        response = r.json()
-        print(f"Response from API: {response} and Token: {token}")
+        r.raise_for_status()
 
+        response = r.json()
         username_of_new_user = response["username"]
-        print(username_of_new_user)
-        print(self.username)
 
         if username_of_new_user == self.username:
+            logging.info(
+                f" Usernames are matched! {self.username} = {username_of_new_user}"
+            )
             return True
-        return False
+        else:
+            logging.info(
+                f" Usernames are not matched. {self.username} = {username_of_new_user}"
+            )
+            return False
 
     def delete_new_user(self):
         uuid = self.user_id
@@ -113,11 +110,15 @@ class Demoqa:
         r = requests.delete(
             f"https://demoqa.com/Account/v1/User/{uuid}", headers=headers
         )
-        status_code = r.status_code
+        r.raise_for_status()
 
-        if status_code == 200:
-            print("New user is deleted!")
+        try:
+            response = requests.get(
+                f"https://demoqa.com/Account/v1/User/{uuid}", headers=headers
+            )
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            logging.info(f" New user was deleted! HTTPError: {e}")
             return True
-        else:
-            print("New user isn't deleted!")
-            return False
+
+        

@@ -32,26 +32,20 @@ def test_new_user_by_token(demoqa_api_user):
 @pytest.mark.api_demoqa
 def test_new_user_by_token_status(demoqa_api_user):
 
-    status = demoqa_api_user.token_status
+    token_status = demoqa_api_user.token_status
       
-    assert status == "Success"
+    assert token_status == "Success"
  
 @pytest.mark.api_demoqa   
 def test_get_result_of_token_generation(demoqa_api_user):
     
-    result = demoqa_api_user.token_result
+    token_result = demoqa_api_user.token_result
       
-    assert result == 'User authorized successfully.'
-  
-    
+    assert token_result == 'User authorized successfully.'
+      
 @pytest.mark.api_demoqa
 def test_check_username_of_new_user(demoqa_api_user):
     
     result_of_check_username = demoqa_api_user.check_username_of_new_user()
-
-    if result_of_check_username:
-        print("The username corresponds to the new user's username.")
-    else:
-        print("Username is not matched.")
         
     assert result_of_check_username  
