@@ -45,8 +45,7 @@ class Demoqa:
             "https://demoqa.com/Account/v1/User", auth=(self.username, self.password)
         )
         response.raise_for_status()
-        status_code = response.status_code
-        logging.info(f"New user is created! Status code: {status_code}")
+        logging.info(f"New user is created!")
 
         return True
 
@@ -69,7 +68,6 @@ class Demoqa:
         )
         r.raise_for_status()
         response_token = r.json()
-        logging.info(f"Response on token request: {response_token}")
 
         token = response_token.get("token")
         self.token = token
@@ -78,6 +76,7 @@ class Demoqa:
         token_result = response_token.get("result")
         self.token_result = token_result
 
+        logging.info(f"Token was successfully generated!")
         return token
 
     def check_username_of_new_user(self):
