@@ -1,13 +1,8 @@
 import requests
 import logging
+import re
 
-"""
-Call POST https://demoqa.com/Account/v1/User to create new user.
-Save userId from Response.
-Create Authorization Token by calling /Account/v1/GenerateToken with credentials of user created on step1. 
-Call endpoint GET /Account/v1/User/{UUID} with user Token as Authorization Header (exact format: “Bearer Token”).
-Verify that username in Response Body corresponds to data provided on step 1
-"""
+
 # Setting level of logging to Info
 logging.basicConfig(level=logging.INFO)
 
@@ -40,6 +35,16 @@ class Demoqa:
         logging.info(f"New User: {response_body}")
 
         return response_body
+    
+# check whether the userID matches the expected UUID pattern
+    def check_user_id_format(self):
+        uuid_pattern = r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
+        if re.match(uuid_pattern, self.user_id):
+            logging.info("Valid userID format.")
+            return True
+        else:
+            logging.info("Invalid userID format.")
+            return False
 
     def check_authorization_of_new_user(self):
 
@@ -62,7 +67,6 @@ class Demoqa:
         response_token = r.json()
 
         self.token = response_token.get("token")
-        # verify key:value
         
         self.headers = {"Authorization": f"Bearer {self.token}"}
 
@@ -74,6 +78,16 @@ class Demoqa:
         
         logging.info("Token was successfully generated!")
         return self.token
+    
+# check whether the token matches the expected JSON Web Token format
+    def check_token_format(self):
+        token_format = r'^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$'
+        if re.match(token_format, self.token):
+            logging.info("Valid JSON Web Token format.")
+            return True
+        else:
+            logging.info("Invalid JSON Web Token format.")
+            return False
 
     def check_username_of_new_user(self):
 
@@ -132,7 +146,7 @@ class Demoqa:
         self.delete_user()
         self.check_user_doesnt_exist()
         
-        logging.info("The user has been really deleted!")
+        logging.info("The user has been successfully deleted!")
         return True
 
     def test_internet_connection(self):
