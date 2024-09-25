@@ -1,15 +1,10 @@
 import requests
-import logging
 import re
-
-
-# Setting level of logging to Info
-logging.basicConfig(level=logging.INFO)
 
 
 class Demoqa:
 
-    def __init__(self) -> None:
+    def __init__(self, logger) -> None:
         self.username = None
         self.password = None
         self.user_id = None
@@ -17,7 +12,9 @@ class Demoqa:
         self.token_status = None
         self.token_result = None
         self.headers = None
-
+        
+        self.logger = logger
+    
     def create_new_user(self, username, password):
 
         new_user = requests.post(
@@ -31,8 +28,8 @@ class Demoqa:
         self.password = password
 
         self.user_id = response_body["userID"]
-        logging.info("New user is created!")
-        logging.info(f"New User: {response_body}")
+        self.logger.info("New user is created!")
+        self.logger.info(f"New User: {response_body}")
 
         return response_body
     
@@ -40,10 +37,10 @@ class Demoqa:
     def check_user_id_format(self):
         uuid_pattern = r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
         if re.match(uuid_pattern, self.user_id):
-            logging.info("Valid userID format.")
+            self.logger.info("Valid userID format.")
             return True
         else:
-            logging.info("Invalid userID format.")
+            self.logger.info("Invalid userID format.")
             return False
 
     def check_authorization_of_new_user(self):
@@ -53,7 +50,7 @@ class Demoqa:
             json={"userName": self.username, "password": self.password},
         )
         r.raise_for_status()
-        logging.info("User authorized successfully.")
+        self.logger.info("User authorized successfully.")
 
         return True
 
@@ -66,27 +63,25 @@ class Demoqa:
         r.raise_for_status()
         response_token = r.json()
 
-        self.token = response_token.get("token")
+        self.token = response_token["token"]
         
         self.headers = {"Authorization": f"Bearer {self.token}"}
 
-        self.token_status = response_token.get("status")
-        # verify key:value
+        self.token_status = response_token["status"]
 
-        self.token_result = response_token.get("result")
-        # verify key:value
+        self.token_result = response_token["result"]
         
-        logging.info("Token was successfully generated!")
+        self.logger.info("Token was successfully generated!")
         return self.token
     
 # check whether the token matches the expected JSON Web Token format
     def check_token_format(self):
         token_format = r'^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$'
         if re.match(token_format, self.token):
-            logging.info("Valid JSON Web Token format.")
+            self.logger.info("Valid JSON Web Token format.")
             return True
         else:
-            logging.info("Invalid JSON Web Token format.")
+            self.logger.info("Invalid JSON Web Token format.")
             return False
 
     def check_username_of_new_user(self):
@@ -98,12 +93,12 @@ class Demoqa:
         username_of_new_user = response["username"]
 
         if username_of_new_user == self.username:
-            logging.info(
+            self.logger.info(
                 f" Usernames are matched! {self.username} = {username_of_new_user}"
             )
             return True
         else:
-            logging.warning(
+            self.logger.warning(
                 f" Usernames are not matched. {self.username} != {username_of_new_user}"
             )
             return False
@@ -115,7 +110,7 @@ class Demoqa:
             json={"userName": self.username, "password": self.password})
         
         r.raise_for_status()
-        logging.info("User is exist.")
+        self.logger.info("User is exist.")
 
         return True
     
@@ -125,7 +120,7 @@ class Demoqa:
             f"https://demoqa.com/Account/v1/User/{self.user_id}", headers=self.headers)
         
         r.raise_for_status()
-        logging.info("User is deleted.")
+        self.logger.info("User is deleted.")
 
         return True
     
@@ -137,7 +132,7 @@ class Demoqa:
             
             r.raise_for_status()
         except requests.exceptions.HTTPError:
-            logging.info("User doesn't exist.")
+            self.logger.info("User doesn't exist.")
             return True
 
     def ensure_delete_user(self):
@@ -146,7 +141,7 @@ class Demoqa:
         self.delete_user()
         self.check_user_doesnt_exist()
         
-        logging.info("The user has been successfully deleted!")
+        self.logger.info("The user has been successfully deleted!")
         return True
 
     def test_internet_connection(self):
@@ -155,7 +150,7 @@ class Demoqa:
             r = requests.get("https://www.google.com", timeout=5)
             
             r.raise_for_status()
-            logging.info("Connected successfully to internet.")  
+            self.logger.info("Connected successfully to internet.")  
         except requests.ConnectionError:
             raise Exception("Internet connection failed.") 
     
