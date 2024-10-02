@@ -23,6 +23,8 @@ Oksana Kolesnyk
 ├──.gitignore
 ├──become_qa_auto.db
 ├──conftest.py
+├──logfile.log
+├──logger.py
 ├──pytest.ini
 ├──README.md
 
