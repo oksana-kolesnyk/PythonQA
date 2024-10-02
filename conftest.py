@@ -4,10 +4,9 @@ from modules.common.database import Database
 from modules.ui.page_objects.base_page import BasePage
 from modules.api.clients.demoqa import Demoqa
 import random
-from logger import Logger
+from logger import LOGGER
 
-LOGGER = Logger()
-LOGGER.init_logger_config()
+
 logger = LOGGER.get_logger(__name__)
 
       
@@ -33,7 +32,7 @@ def page_creation():
                 
 @pytest.fixture(scope="function")
 def demoqa_api(check_connection_function):
-    demo_api = Demoqa(logger)
+    demo_api = Demoqa()
     logger.info('Test is started.')
     yield demo_api
     logger.info('Test is finished.')
@@ -41,7 +40,7 @@ def demoqa_api(check_connection_function):
 
 @pytest.fixture(scope="session")
 def demoqa_api_user(check_connection_session):
-    demo_api_user = Demoqa(logger)
+    demo_api_user = Demoqa()
     autotest = random.randint(0, 1000)
     username = f"{autotest}_Ksena"
     password = "Kse1111123@"
@@ -57,13 +56,8 @@ def demoqa_api_user(check_connection_session):
 
 @pytest.fixture(scope="session")
 def check_connection_session():
-    connection_api = Demoqa(logger)
-    connection_api.test_internet_connection()
-    yield connection_api
+    Demoqa.test_internet_connection()
 
 @pytest.fixture(scope="function")
 def check_connection_function():
-    connection_api = Demoqa(logger)
-    connection_api.test_internet_connection()
-    yield connection_api
-    
+    Demoqa.test_internet_connection()
