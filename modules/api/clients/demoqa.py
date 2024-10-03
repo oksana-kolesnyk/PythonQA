@@ -17,6 +17,7 @@ class Demoqa:
         self.token_status = None
         self.token_result = None
         self.headers = None
+        self.book_list = None
     
     def create_new_user(self, username, password):
         new_user = requests.post(
@@ -149,4 +150,35 @@ class Demoqa:
             logger.info("Connected successfully to internet.")  
         except requests.ConnectionError:
             raise RuntimeError("Internet connection failed.") 
+    
+    def get_book_list(self):
+        r = requests.get("https://demoqa.com/BookStore/v1/Books", headers=self.headers)
+        r.raise_for_status()
+        book_list = r.json()
+        self.book_list = book_list["books"]
+        
+        if self.book_list is None:
+            logger.warning("Book list is None.")
+            return 0
+        else:
+            logger.info(f"Book list for {self.username} is received.") 
+            logger.debug(f"book list check: {self.book_list}") 
+            return self.book_list
+    
+    @staticmethod
+    def count_books(book_list):
+        count_books = len(book_list)
+        
+        return count_books
+    
+    def get_title_book_with_ibsn(self, isbn): 
+        title = None
+        
+        for books in self.book_list:
+            if isbn == books["isbn"]:
+                title = books["title"]
+                break
+            
+        logger.info(f"Title of the book with isbn {isbn} is: {title}")   
+        return title
     

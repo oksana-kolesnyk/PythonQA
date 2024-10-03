@@ -51,3 +51,28 @@ def test_check_username_of_new_user(demoqa_api_user):
     result, msg = demoqa_api_user.check_username_of_new_user()
 
     assert result, msg
+
+"""
+Get Books list as Test user
+Create Authorization Token by calling GET /Account/v1/GenerateToken with Test user credentials.
+Call GET https://demoqa.com/BookStore/v1/Books with Test user Token.
+Verify that 8 Books were returned in result (it is suggested to use ArrayList to save value of “books” object from Response Body).
+Verify that Book with isbn 9781449325862 has title Git Pocket Guide 
+"""     
+
+@pytest.mark.api_demoqa
+def test_check_books_quantity(demoqa_api_user):
+    book_list = demoqa_api_user.get_book_list()
+    count = demoqa_api_user.count_books(book_list)
+      
+    assert count == 8, "8 books are expected in the list of the books"
+
+
+@pytest.mark.api_demoqa
+def test_check_book_title_by_ibsn(demoqa_api_user):
+    isbn = "9781449325862"
+    expected_title = "Git Pocket Guide"
+    
+    title = demoqa_api_user.get_title_book_with_ibsn(isbn)
+      
+    assert title == expected_title, f"Expected title: {expected_title}, but actual title: {title}"
