@@ -64,8 +64,9 @@ Verify that Book with isbn 9781449325862 has title Git Pocket Guide
 def test_check_books_quantity(demoqa_api_user):
     book_list = demoqa_api_user.get_book_list()
     count = demoqa_api_user.count_books(book_list)
-      
-    assert count == 8, "8 books are expected in the list of the books"
+    expected_count = 8
+    
+    assert count == expected_count, f"{expected_count} books are expected in the list of the books"
 
 
 @pytest.mark.api_demoqa
@@ -74,5 +75,5 @@ def test_check_book_title_by_ibsn(demoqa_api_user):
     expected_title = "Git Pocket Guide"
     
     title = demoqa_api_user.get_title_book_with_ibsn(isbn)
-      
+     
     assert title == expected_title, f"Expected title: {expected_title}, but actual title: {title}"

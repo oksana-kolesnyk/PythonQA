@@ -154,15 +154,16 @@ class Demoqa:
     def get_book_list(self):
         r = requests.get("https://demoqa.com/BookStore/v1/Books", headers=self.headers)
         r.raise_for_status()
+        
         book_list = r.json()
         self.book_list = book_list["books"]
         
         if self.book_list is None:
             logger.warning("Book list is None.")
-            return 0
+            return []
         else:
             logger.info(f"Book list for {self.username} is received.") 
-            logger.debug(f"book list check: {self.book_list}") 
+            logger.debug(f"Book list check: {self.book_list}") 
             return self.book_list
     
     @staticmethod
@@ -174,9 +175,9 @@ class Demoqa:
     def get_title_book_with_ibsn(self, isbn): 
         title = None
         
-        for books in self.book_list:
-            if isbn == books["isbn"]:
-                title = books["title"]
+        for book in self.book_list:
+            if isbn == book["isbn"]:
+                title = book["title"]
                 break
             
         logger.info(f"Title of the book with isbn {isbn} is: {title}")   
