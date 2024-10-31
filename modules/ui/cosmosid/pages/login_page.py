@@ -1,4 +1,7 @@
 from modules.ui.cosmosid.base_page import BasePage
+from logger import LOGGER
+
+logger = LOGGER.get_logger(__name__)
 
 
 class LoginPage(BasePage):
@@ -18,8 +21,10 @@ class LoginPage(BasePage):
         actual_error_message = error_locator.text_content()
         
         if error_locator.is_visible() and actual_error_message == error_message:
-            return (True, "invalid creds.")
+            logger.warning(f"Invalid creds: {error_message}")
+            return (True, f"invalid creds: {error_message}")
         else:
+            logger.info("Creds is valid.")
             return (False, "Creds is valid.")
     
     

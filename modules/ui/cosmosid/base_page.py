@@ -1,3 +1,8 @@
+from logger import LOGGER
+
+logger = LOGGER.get_logger(__name__)
+
+
 class BasePage:
     def __init__(self, browser) -> None:
         self.browser = browser
