@@ -17,7 +17,7 @@ class LoginPage(BasePage):
         self.page.locator("button#sign-in-form--submit").click()
         
     @staticmethod
-    def check_incorrect_creds_message(error_locator, error_message):
+    def check_invalid_creds_message(error_locator, error_message):
         actual_error_message = error_locator.text_content()
         
         if error_locator.is_visible() and actual_error_message == error_message:

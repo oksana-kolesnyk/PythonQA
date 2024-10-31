@@ -29,6 +29,7 @@ class Logger:
         
         # disable some loggers
         logging.getLogger("urllib3.connectionpool").setLevel(logging.ERROR)
+        logging.getLogger("asyncio").setLevel(logging.ERROR)
 
      
 LOGGER = Logger()

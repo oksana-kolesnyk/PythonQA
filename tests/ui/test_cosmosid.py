@@ -3,19 +3,19 @@ from modules.ui.cosmosid.pages.login_page import LoginPage
 from playwright.sync_api import expect
 
 @pytest.mark.ui_cosmosid
-def test_login_negative(cosmosid_ui_app):
+def test_login_invalid_username(cosmosid_ui_app):
     username = 'djghggukr'
     password = '123456DF'
     cosmosid_ui_app.try_login(username, password)
     
     error_message = 'Email address must be a valid email'
     error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--email-helper-text")
-    result, msg = LoginPage.check_incorrect_creds_message(error_locator, error_message)
+    result, msg = LoginPage.check_invalid_creds_message(error_locator, error_message)
     
     assert result, msg
     
 @pytest.mark.ui_cosmosid
-def test_login_negative_with_expect(cosmosid_ui_app):
+def test_login_invalid_username_with_expect(cosmosid_ui_app):
     username = 'djghggukr'
     password = '123456DF'
     cosmosid_ui_app.try_login(username, password)
@@ -26,6 +26,29 @@ def test_login_negative_with_expect(cosmosid_ui_app):
     expect(error_locator).to_be_visible()
     expect(error_locator).to_have_text(error_message)
 
+@pytest.mark.ui_cosmosid
+def test_login_without_password(cosmosid_ui_app):
+    username = 'djghgg@ukr.net'
+    password = ''
+    cosmosid_ui_app.try_login(username, password)
+    
+    error_message = 'Password is a required field'
+    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--password-helper-text")
+    result, msg = LoginPage.check_invalid_creds_message(error_locator, error_message)
+    
+    assert result, msg
+
+@pytest.mark.ui_cosmosid
+def test_login_without_password_with_expect(cosmosid_ui_app):
+    username = 'djghgg@ukr.net'
+    password = ''
+    cosmosid_ui_app.try_login(username, password)
+    
+    error_message = 'Password is a required field'
+    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--password-helper-text")
+    
+    expect(error_locator).to_be_visible()
+    expect(error_locator).to_have_text(error_message)
 
 
 """def test_login_positive():
