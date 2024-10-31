@@ -3,6 +3,7 @@ from modules.api.clients.github import GitHub
 from modules.common.database import Database
 from modules.ui.page_objects.base_page import BasePage
 from modules.api.clients.demoqa import Demoqa
+from modules.ui.cosmosid.pages.login_page import LoginPage
 import random
 from logger import LOGGER
 
@@ -61,3 +62,12 @@ def check_connection_session():
 @pytest.fixture(scope="function")
 def check_connection_function():
     Demoqa.test_internet_connection()
+    
+#cosmosid_api_client, login_page and db - fixtures
+
+@pytest.fixture(scope="session")
+def cosmosid_ui_app(browser):
+    login_page = LoginPage(browser)
+    login_page.close_popup_if_present()
+    yield login_page
+    browser.close()
