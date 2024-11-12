@@ -1,6 +1,5 @@
 import pytest
 from modules.ui.cosmosid.pages.login_page import LoginPage
-from playwright.sync_api import expect
 
 @pytest.mark.ui_cosmosid
 def test_login_invalid_username(cosmosid_ui_app):
@@ -8,11 +7,7 @@ def test_login_invalid_username(cosmosid_ui_app):
     password = '123456DF'
     cosmosid_ui_app.try_login(username, password)
     
-    error_message = 'Email address must be a valid email'
-    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--email-helper-text")
-    result, msg = LoginPage.check_invalid_creds_message(error_locator, error_message)
-    
-    assert result, msg
+    assert LoginPage.check_invalid_email_message()
     
 @pytest.mark.ui_cosmosid
 def test_login_invalid_username_with_expect(cosmosid_ui_app):
@@ -20,11 +15,7 @@ def test_login_invalid_username_with_expect(cosmosid_ui_app):
     password = '123456DF'
     cosmosid_ui_app.try_login(username, password)
     
-    error_message = 'Email address must be a valid email'
-    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--email-helper-text")
-    
-    expect(error_locator).to_be_visible()
-    expect(error_locator).to_have_text(error_message)
+    LoginPage.expect_invalid_email_message()
 
 @pytest.mark.ui_cosmosid
 def test_login_without_password(cosmosid_ui_app):
@@ -32,11 +23,7 @@ def test_login_without_password(cosmosid_ui_app):
     password = ''
     cosmosid_ui_app.try_login(username, password)
     
-    error_message = 'Password is a required field'
-    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--password-helper-text")
-    result, msg = LoginPage.check_invalid_creds_message(error_locator, error_message)
-    
-    assert result, msg
+    assert LoginPage.check_pass_required_message()
 
 @pytest.mark.ui_cosmosid
 def test_login_without_password_with_expect(cosmosid_ui_app):
@@ -44,11 +31,7 @@ def test_login_without_password_with_expect(cosmosid_ui_app):
     password = ''
     cosmosid_ui_app.try_login(username, password)
     
-    error_message = 'Password is a required field'
-    error_locator = cosmosid_ui_app.page.locator("p#sign-in-form--password-helper-text")
-    
-    expect(error_locator).to_be_visible()
-    expect(error_locator).to_have_text(error_message)
+    LoginPage.expect_pass_required_message()
 
 
 """def test_login_positive():

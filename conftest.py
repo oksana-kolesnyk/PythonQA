@@ -20,22 +20,28 @@ def github_api_client():
 @pytest.fixture
 def db_connection():
     db = Database()
+    
     yield db
+    
     db.close_connection()  # close connection with database
 
 
 @pytest.fixture
 def page_creation():
     page = BasePage()
+    
     yield page
+    
     page.driver.close()  # close the page
 
-                
+              
 @pytest.fixture(scope="function")
 def demoqa_api(check_connection_function):
     demo_api = Demoqa()
     logger.info('Test demoqa_api is started.')
+    
     yield demo_api
+    
     logger.info('Test demoqa_api is finished.')
 
 
@@ -50,7 +56,9 @@ def demoqa_api_user(check_connection_session):
     demo_api_user.create_new_user(username, password)
     demo_api_user.check_authorization_of_new_user()
     demo_api_user.get_user_token()
+    
     yield demo_api_user
+    
     demo_api_user.ensure_delete_user()
     logger.info('Tests session demoqa_api is finished.')
 
@@ -59,17 +67,21 @@ def demoqa_api_user(check_connection_session):
 def check_connection_session():
     Demoqa.test_internet_connection()
 
+
 @pytest.fixture(scope="function")
 def check_connection_function():
     Demoqa.test_internet_connection()
     
 #cosmosid_api_client, login_page and db - fixtures
 
+
 @pytest.fixture(scope="session")
 def cosmosid_ui_app(browser, check_connection_session):
     login_page = LoginPage(browser)
     logger.info('Tests session ui_cosmosid is started.')
     login_page.close_popup_if_present()
+    
     yield login_page
+    
     browser.close()
     logger.info('Tests session ui_cosmosid is finished.')
