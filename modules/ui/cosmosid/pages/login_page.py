@@ -16,11 +16,12 @@ class LoginPage(BasePage):
     SING_IN_BUTT = "button#sign-in-form--submit"
     ERROR_MESSAGES = {
         'email': 'Email address must be a valid email',
-        'password': 'Password is a required field',
+        'empty_password': 'Password is a required field',
+        'empty_email': 'Email address is a required field',
     }
     ERROR_LOCATORS = {
         'email': 'p#sign-in-form--email-helper-text',
-        'password': 'p#sign-in-form--password-helper-text',    
+        'password': 'p#sign-in-form--password-helper-text',   
     }
     
     def __init__(self, browser) -> None:
@@ -44,6 +45,9 @@ class LoginPage(BasePage):
      
     def check_invalid_email_message(self):
         return self._check_invalid_creds_message(self.ERROR_LOCATORS['email'], self.ERROR_MESSAGES['email'])
+    
+    def check_empty_email_mesage(self):
+        return self._check_invalid_creds_message(self.ERROR_LOCATORS['email'], self.ERROR_MESSAGES['empty_email'])
      
     @staticmethod
     def _check_invalid_creds_message(error_locator, error_message):

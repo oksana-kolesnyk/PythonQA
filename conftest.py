@@ -76,7 +76,7 @@ def check_connection_function():
 
 
 @pytest.fixture(scope="session")
-def cosmosid_ui_app(browser, check_connection_session):
+def login_page(browser, check_connection_session):
     login_page = LoginPage(browser)
     logger.info('Tests session ui_cosmosid is started.')
     login_page.close_popup_if_present()
