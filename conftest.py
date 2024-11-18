@@ -79,7 +79,7 @@ def check_connection_function():
 def login_page(browser, check_connection_session):
     login_page = LoginPage(browser)
     logger.info('Tests session ui_cosmosid is started.')
-    login_page.close_popup_if_present()
+    login_page.close_login_page_pop_up_if_present()
     
     yield login_page
     
