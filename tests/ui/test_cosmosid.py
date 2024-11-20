@@ -35,17 +35,3 @@ def test_login_without_password_with_expect(login_page):
     
     login_page.expect_pass_required_message()
 
-
-"""def test_login_positive():
-    dashboard_page = login_page.try_login('user', 'password')
-    assert dashboard_page.check_user_logged_in()
-
-
-def test_login_complicated_api_ui(cosmosid_api_client, login_page, db): #cosmosid_api_client, login_page and db must be fixture
-    dashboard_page = login_page.try_login('user', 'password')
-    user = cosmosid_api_client.get_user_profile()
-    user2 = db.get_user_from_table()
-    
-    assert user.token is not None
-    assert dashboard_page.check_user_logged_in()
-    """

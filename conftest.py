@@ -4,6 +4,8 @@ from modules.common.database import Database
 from modules.ui.page_objects.base_page import BasePage
 from modules.api.clients.demoqa import Demoqa
 from modules.ui.cosmosid.pages.login_page import LoginPage
+from modules.ui.demoqa.pages.main_page import MainPage
+from modules.ui.demoqa.pages. text_box_page import TextboxPage
 import random
 from logger import LOGGER
 
@@ -85,3 +87,24 @@ def login_page(browser, check_connection_session):
     
     browser.close()
     logger.info('Tests session ui_cosmosid is finished.')
+   
+    
+@pytest.fixture(scope="session")
+def main_demoqa(browser, check_connection_session):
+    main_demoqa = MainPage(browser)
+    logger.info('Tests session ui_demoqa is started.')
+    
+    yield main_demoqa
+    
+    browser.close()  
+    logger.info('Tests session ui_demoqa is finished.')
+    
+@pytest.fixture(scope="session")
+def textbox_demoqa(browser, check_connection_session):
+    textbox_demoqa = TextboxPage(browser)
+    logger.info('Tests session ui_demoqa is started.')
+    
+    yield textbox_demoqa
+    
+    browser.close()  
+    logger.info('Tests session ui_demoqa is finished.')

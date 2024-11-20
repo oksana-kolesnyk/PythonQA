@@ -14,16 +14,13 @@ class LoginPage(BasePage):
     SING_IN_EMAIL = "input#sign-in-form--email"
     SING_IN_PASS = "input#sign-in-form--password"
     SING_IN_BUTT = "button#sign-in-form--submit"
-    
     POP_UP_TITLE = "h2#new-features-dialog--title"
-    POP_UP_BUTTON_CLOSE = "button#new-features-dialog--close"  # xpath '//*[@id="new-features-dialog--close"]'
-    
+    POP_UP_BUTTON_CLOSE = "button#new-features-dialog--close"  # xpath '//*[@id="new-features-dialog--close"]' 
     ERROR_MESSAGES = {
         'email': 'Email address must be a valid email',
         'empty_password': 'Password is a required field',
         'empty_email': 'Email address is a required field',
-        'wrong_password': 'Wrong email or password',
-       
+        'wrong_password': 'Wrong email or password', 
     }
     ERROR_LOCATORS = {
         'email': 'p#sign-in-form--email-helper-text',
