@@ -37,7 +37,7 @@ def test_url_links_on_main_page(main_demoqa):
 Очікуваний результат: Після натискання кнопки "Submit" дані відображаються в полі результату під формою.
 """
 @pytest.mark.ui_demoqa
-def test_check_data_presence_data_under_form(textbox_demoqa):
+def test_check_data_presence_under_form(textbox_demoqa):
     DATA={
         "fullname":TextboxPage.generate_random_fullname(8, 10),
         "email":TextboxPage.generate_random_email(7),
@@ -57,3 +57,16 @@ def test_check_data_presence_data_under_form(textbox_demoqa):
     for key in UNDERFORM_LOCATORS:
         textbox_demoqa.check_data_presence(UNDERFORM_LOCATORS[key], DATA[key])
         logger.info(f"Such data as {key} is present under form.")
+        
+"""
+Обрати "Check Box".
+Розгорнути дерево елементів.
+Поставити чекбокси для певних категорій.
+Очікуваний результат: Вибрані елементи відображаються у списку під деревом.
+"""
+@pytest.mark.ui_demoqa
+def test_checkbox_checking(checkbox_demoqa):
+    checkbox_demoqa.expand_all()
+    
+
+    

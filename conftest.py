@@ -5,7 +5,8 @@ from modules.ui.page_objects.base_page import BasePage
 from modules.api.clients.demoqa import Demoqa
 from modules.ui.cosmosid.pages.login_page import LoginPage
 from modules.ui.demoqa.pages.main_page import MainPage
-from modules.ui.demoqa.pages. text_box_page import TextboxPage
+from modules.ui.demoqa.pages.text_box_page import TextboxPage
+from modules.ui.demoqa.pages.checkbox_page import CheckboxPage
 import random
 from logger import LOGGER
 
@@ -108,3 +109,14 @@ def textbox_demoqa(browser, check_connection_session):
     
     browser.close()  
     logger.info('Tests session ui_demoqa is finished.')
+    
+    
+@pytest.fixture(scope="session")
+def checkbox_demoqa(browser, check_connection_session):
+    checkbox_demoqa = CheckboxPage(browser)
+    logger.info('Tests session ui_demoqa is started.')
+    
+    yield textbox_demoqa
+    
+    browser.close()  
+    logger.info('Tests session ui_demoqa is finished.') 
