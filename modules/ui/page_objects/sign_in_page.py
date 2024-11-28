@@ -1,5 +1,6 @@
-from modules.ui.page_objects.base_page import BasePage
 from selenium.webdriver.common.by import By
+
+from modules.ui.page_objects.base_page import BasePage
 
 
 class SignInPage(BasePage):
@@ -21,5 +22,3 @@ class SignInPage(BasePage):
         btn_elem = self.driver.find_element(By.NAME, "commit")
 
         btn_elem.click()
-
-    
