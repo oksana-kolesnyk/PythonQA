@@ -1,25 +1,24 @@
 from playwright.sync_api import expect
 
 from logger import LOGGER
-from modules.ui.base_page import BasePage
 
 logger = LOGGER.get_logger(__name__)
 
 
-class MainPage(BasePage):
+class MainPage:
 
     # URL BLOCK
     URL = "https://demoqa.com/"
 
-    def __init__(self, browser) -> None:
-        super().__init__(browser)
+    def __init__(self, demoqa_app) -> None:
+        self.demoqa_app = demoqa_app
 
     # USER METHODS BLOCK
 
     def go_to_main_page(self):
-        self.goto(MainPage.URL)
+        self.demoqa_app.goto(MainPage.URL)
 
     def check_links_url(self, elements_locator, expected_url):
         self.go_to_main_page()
-        self.page.locator(elements_locator).click()
-        expect(self.page).to_have_url(expected_url)
+        self.demoqa_app.click(elements_locator)
+        expect(self.demoqa_app.page).to_have_url(expected_url)

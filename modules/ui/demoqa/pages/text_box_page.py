@@ -6,7 +6,7 @@ from modules.ui.base_page import BasePage
 logger = LOGGER.get_logger(__name__)
 
 
-class TextboxPage(BasePage):
+class TextboxPage:
 
     # URL BLOCK
     URL = "https://demoqa.com/text-box"
@@ -18,21 +18,20 @@ class TextboxPage(BasePage):
     PERMANENT_ADDRESS = "//textarea[@id='permanentAddress']"
     SUBMIT_BUTTON = "//button[@id='submit']"
 
-    def __init__(self, browser) -> None:
-        super().__init__(browser)
+    def __init__(self, demoqa_app) -> None:
+        self.demoqa_app = demoqa_app
 
     # USER METHODS BLOCK
 
     def go_to_text_box_page(self):
-        self.goto(TextboxPage.URL)
+        self.demoqa_app.goto(TextboxPage.URL)
 
     def fill_text_box(self, fullname, email, current_address, permanent_address):
-        self.go_to_text_box_page()
-        self.page.fill(self.FULL_NAME, fullname)
-        self.page.fill(self.EMAIL, email)
-        self.page.fill(self.CURRENT_ADDRESS, current_address)
-        self.page.fill(self.PERMANENT_ADDRESS, permanent_address)
-        self.page.locator(self.SUBMIT_BUTTON).click()
+        self.demoqa_app.fill(self.FULL_NAME, fullname)
+        self.demoqa_app.fill(self.EMAIL, email)
+        self.demoqa_app.fill(self.CURRENT_ADDRESS, current_address)
+        self.demoqa_app.fill(self.PERMANENT_ADDRESS, permanent_address)
+        self.demoqa_app.click(self.SUBMIT_BUTTON)
         return self
 
     @staticmethod
@@ -50,8 +49,9 @@ class TextboxPage(BasePage):
         return email
 
     def check_data_presence(self, under_form_locator, expected_data):
-        locator = self.page.locator(under_form_locator)
+        locator = self.demoqa_app.page.locator(under_form_locator)
         expect(locator).to_be_visible(timeout=10000)
+
         actual_text = locator.text_content()
         logger.info(f"Actual text for locator {under_form_locator}: {actual_text}")
         expect(locator).to_contain_text(expected_data)

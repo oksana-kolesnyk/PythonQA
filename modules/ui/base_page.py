@@ -19,6 +19,24 @@ class BasePage:
     def get_url(self):
         return self.page.url
 
+    def click(self, locator):
+        self.page.locator(locator).hover()
+        self.page.locator(locator).click()
+
+    def fill(self, locator, text):
+        element = self.page.locator(locator)
+        element.fill(text)
+        
+    def check(self, locator):
+        expect(self.page.locator(locator)).to_be_visible(timeout=10000)
+        self.page.locator(locator).check()
+       # expect(self.page.locator(locator)).to_have_class("rct-icon rct-icon-check")
+        
+    def uncheck(self, locator):
+        expect(self.page.locator(locator)).to_be_visible(timeout=5000)
+        self.page.locator(locator).uncheck()
+       # expect(self.page.locator(locator)).to_have_class("rct-icon rct-icon-uncheck")
+
     @staticmethod
     def generate_random_string_name(length):  # Generate random alphabet
         alphabet = string.ascii_lowercase

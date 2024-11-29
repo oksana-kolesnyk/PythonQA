@@ -175,7 +175,7 @@ class Demoqa:
         else:
             logger.info(f"Book list for {self.username} is received.")
             logger.debug(f"Book list check: {self.book_list}")
-            
+
         return self.book_list
 
     @staticmethod

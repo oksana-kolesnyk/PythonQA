@@ -21,7 +21,7 @@ from modules.ui.cosmosid.pages.login_page import LoginPage
 )
 def test_login_invalid_creds(login_page, username, password, check_func):
     login_page.try_login(username, password)
-    
+
     func = getattr(login_page, check_func)
     assert func()
     # Це вбудована функція Python для отримання динамічного атрибута об'єкта за його іменем (у вигляді рядка), якщо атрибут не знайдено, то викликається AttributeError.

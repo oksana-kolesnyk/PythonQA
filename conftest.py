@@ -7,9 +7,7 @@ from modules.api.clients.demoqa import Demoqa
 from modules.api.clients.github import GitHub
 from modules.common.database import Database
 from modules.ui.cosmosid.pages.login_page import LoginPage
-from modules.ui.demoqa.pages.checkbox_page import CheckboxPage
-from modules.ui.demoqa.pages.main_page import MainPage
-from modules.ui.demoqa.pages.text_box_page import TextboxPage
+from modules.ui.demoqa.demoqa_app import DemoQaApp
 from modules.ui.page_objects.base_page import BasePage
 
 logger = LOGGER.get_logger(__name__)
@@ -94,33 +92,11 @@ def login_page(browser, check_connection_session):
 
 
 @pytest.fixture(scope="session")
-def main_demoqa(browser, check_connection_session):
-    main_demoqa = MainPage(browser)
+def demoqa_app(browser, check_connection_session):
+    demoqa = DemoQaApp(browser)
     logger.info("Tests session ui_demoqa is started.")
 
-    yield main_demoqa
-
-    browser.close()
-    logger.info("Tests session ui_demoqa is finished.")
-
-
-@pytest.fixture(scope="session")
-def textbox_demoqa(browser, check_connection_session):
-    textbox_demoqa = TextboxPage(browser)
-    logger.info("Tests session ui_demoqa is started.")
-
-    yield textbox_demoqa
-
-    browser.close()
-    logger.info("Tests session ui_demoqa is finished.")
-
-
-@pytest.fixture(scope="session")
-def checkbox_demoqa(browser, check_connection_session):
-    checkbox_demoqa = CheckboxPage(browser)
-    logger.info("Tests session ui_demoqa is started.")
-
-    yield textbox_demoqa
+    yield demoqa
 
     browser.close()
     logger.info("Tests session ui_demoqa is finished.")
