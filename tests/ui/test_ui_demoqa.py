@@ -1,4 +1,5 @@
 import pytest
+from playwright.sync_api import expect
 
 from logger import LOGGER
 from modules.ui.demoqa.pages.text_box_page import TextboxPage
@@ -77,46 +78,57 @@ def test_check_data_presence_under_form(demoqa_app):
 Очікуваний результат: Вибрані елементи відображаються у списку під деревом.
 """
 
+
 @pytest.mark.ui_demoqa
 def test_Home_checkbox_checking(demoqa_app):
     demoqa_app.checkbox_page.go_to_checkbox_page()
     demoqa_app.checkbox_page.expand_all()
     demoqa_app.checkbox_page.check_item("Home")
-    
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("home")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("desktop")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("notes")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("commands")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("documents")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("workspace")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("react")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("angular")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("veu")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("office")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("public")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("private")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("classified")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("general")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("downloads")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("wordFile")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("excelFile")
-    
-   # demoqa_app.checkbox_page.uncheck_item("Home")
-    
+
+    EXPECTED_TITLE = [
+        "home",
+        "desktop",
+        "notes",
+        "commands",
+        "documents",
+        "workspace",
+        "react",
+        "angular",
+        "veu",
+        "office",
+        "public",
+        "private",
+        "classified",
+        "general",
+        "downloads",
+        "wordFile",
+        "excelFile",
+    ]
+
+    for key in EXPECTED_TITLE:
+        demoqa_app.checkbox_page.check_item_title_presence_under_the_tree(key)
+        logger.info(f"For {key} URL is as expected: {key}")
+
+
+# demoqa_app.checkbox_page.uncheck_item("Home")
+
+
 @pytest.mark.ui_demoqa
 def test_Office_checkbox_checking(demoqa_app):
+
     demoqa_app.checkbox_page.go_to_checkbox_page()
     demoqa_app.checkbox_page.expand_all()
     demoqa_app.checkbox_page.check_item("Office")
-    
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("office")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("public")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("private")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("classified")
-    demoqa_app.checkbox_page.check_item_title_presence_under_the_tree("general")
-    
-   # demoqa_app.checkbox_page.uncheck_item("Office")
-    
+
+    EXPECTED_TITLE = ["office", "public", "private", "classified", "general"]
+
+    for key in EXPECTED_TITLE:
+        demoqa_app.checkbox_page.check_item_title_presence_under_the_tree(key)
+        logger.info(f"For {key} URL is as expected: {key}")
+
+
+# demoqa_app.checkbox_page.uncheck_item("Office")
+
 """
 Перейти на DemoQA.
 Натиснути на "Elements".
@@ -125,15 +137,41 @@ def test_Office_checkbox_checking(demoqa_app):
 Очікуваний результат: Під кнопками відображається повідомлення з текстом "You have selected Yes".
 """
 
+
 @pytest.mark.ui_demoqa
 def test_check_message_if_select_radio_button(demoqa_app):
     demoqa_app.radio_button_page.go_to_radiobutton_page()
-    
+
     for key in ["Yes", "Impressive"]:
         demoqa_app.radio_button_page.click_radiobutton(key)
         demoqa_app.radio_button_page.check_message_text(key)
-        
+
+
 @pytest.mark.ui_demoqa
-def test_click_on_disabled_radio_button(demoqa_app):
+def test_check_click_on_disabled_radio_button(demoqa_app):
+    button = "No"
+
     demoqa_app.radio_button_page.go_to_radiobutton_page()
-    demoqa_app.radio_button_page.click_radiobutton("No")
+    demoqa_app.radio_button_page.click_radiobutton(button)
+
+
+# test to check status of checkbox
+
+
+"""
+Перейти на DemoQA.
+Натиснути на "Widgets".
+Обрати "Select Menu".
+Вибрати певний елемент із списку.
+Очікуваний результат: Вибраний елемент відображається у полі вибору.
+"""
+
+
+@pytest.mark.ui_demoqa
+def test_check_text_appears_if_select_element_in_select_value_option_drop_down(demoqa_app):
+
+    demoqa_app.widgets_page.go_to_widgets_page()
+    demoqa_app.widgets_page.click_on_select_menu()
+    demoqa_app.select_menu_page.check_select_menu_url()
+    demoqa_app.select_menu_page.select_in_select_value_option()
+    demoqa_app.select_menu_page.check_selected_in_select_value_option_text_appears()

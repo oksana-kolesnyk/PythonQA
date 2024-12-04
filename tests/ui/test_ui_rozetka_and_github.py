@@ -1,8 +1,9 @@
 import pytest
 
 from modules.ui.page_objects.rozetka_main_page import RozetkaMainPage
-from modules.ui.page_objects.rozetka_navushnyky_aksesuary_page import \
-    RozetkaNavushnykyAksesuaryPage
+from modules.ui.page_objects.rozetka_navushnyky_aksesuary_page import (
+    RozetkaNavushnykyAksesuaryPage,
+)
 from modules.ui.page_objects.sign_in_page import SignInPage
 
 
