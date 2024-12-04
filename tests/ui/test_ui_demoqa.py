@@ -175,3 +175,12 @@ def test_check_text_appears_if_select_element_in_select_value_option_drop_down(d
     demoqa_app.select_menu_page.check_select_menu_url()
     demoqa_app.select_menu_page.select_in_select_value_option()
     demoqa_app.select_menu_page.check_selected_in_select_value_option_text_appears()
+    
+"""
+Перетягнути елемент "Drag me" на зону "Drop here".
+Очікуваний результат: З'являється повідомлення "Dropped!".
+"""
+@pytest.mark.ui_demoqa
+def test_check_message_after_drag_and_drop_element(demoqa_app):
+    demoqa_app.droppable_page.go_to_droppable_page()
+    demoqa_app.droppable_page.drag_and_drop_the_Drag_Me_item()

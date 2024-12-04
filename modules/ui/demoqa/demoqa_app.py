@@ -5,6 +5,7 @@ from modules.ui.demoqa.pages.radio_button_page import RadiobuttonPage
 from modules.ui.demoqa.pages.select_menu import SelectmenuPage
 from modules.ui.demoqa.pages.text_box_page import TextboxPage
 from modules.ui.demoqa.pages.widgets_page import WidgetsPage
+from modules.ui.demoqa.pages.droppable_page import DroppablePage
 
 
 class DemoQaApp(BasePage):
@@ -17,3 +18,4 @@ class DemoQaApp(BasePage):
         self.radio_button_page = RadiobuttonPage(self)
         self.widgets_page = WidgetsPage(self)
         self.select_menu_page = SelectmenuPage(self)
+        self.droppable_page = DroppablePage(self)

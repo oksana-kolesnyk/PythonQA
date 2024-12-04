@@ -68,6 +68,13 @@ class BasePage:
     def is_disabled(self, locator):
         expect(self.page.locator(locator)).to_be_visible(timeout=10000)
         self.page.locator(locator).is_disabled()
+        
+    def drag_to(self, locator):
+        expect(self.page.locator(locator)).to_be_visible(timeout=5000)
+        self.page.locator(locator).drag_to()
+        
+    def drag_and_drop_element(self,draged_locator, dropped_locator):
+        self.demoqa_app.locator(draged_locator).drag_to(dropped_locator)
 
     def select_option(self, locator):
         expect(self.page.locator(locator)).to_be_visible(timeout=5000)
