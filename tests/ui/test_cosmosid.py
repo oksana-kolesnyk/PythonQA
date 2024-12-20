@@ -1,6 +1,6 @@
 import pytest
 
-from modules.ui.cosmosid.pages.login_page import LoginPage
+from modules.ui.cosmosid.login_page import LoginPage
 
 
 @pytest.mark.ui_cosmosid

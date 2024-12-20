@@ -1,4 +1,5 @@
 from playwright.sync_api import expect
+from modules.ui.base_page import BasePage
 
 from logger import LOGGER
 
@@ -16,23 +17,23 @@ class CheckboxPage:
     COLLAPSE_ALL_BUTTON = "//button[@aria-label='Collapse all']"
 
     CHECKBOX_ITEM_LOCATOR = {
-        "Home": "//*[@id='tree-node']/ol/li/span/label/span[1]",
-        "Desktop": "//*[@id='tree-node']/ol/li/ol/li[1]/span/label/span[1]",
-        "Notes": "//*[@id='tree-node']/ol/li/ol/li[1]/ol/li[1]/span/label/span[1]",
-        "Commands": "//*[@id='tree-node']/ol/li/ol/li[1]/ol/li[2]/span/label/span[1]",
-        "Documents": "//*[@id='tree-node']/ol/li/ol/li[2]/span/label/span[1]/svg",
-        "WorkSpace": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[1]/span/label/span[1]",
-        "React": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[1]/ol/li[1]/span/label/span[1]",
-        "Angular": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[1]/ol/li[2]/span/label/span[1]",
-        "Veu": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[1]/ol/li[3]/span/label/span[1]",
-        "Office": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[2]/span/label/span[1]",
-        "Public": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[2]/ol/li[1]/span/label/span[1]",
-        "Private": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[2]/ol/li[2]/span/label/span[1]",
-        "Classified": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[2]/ol/li[3]/span/label/span[1]",
-        "General": "//*[@id='tree-node']/ol/li/ol/li[2]/ol/li[2]/ol/li[4]/span/label/span[1]",
-        "Downloads": "//*[@id='tree-node']/ol/li/ol/li[3]/span/label/span[1]",
-        "Word File.doc": "//*[@id='tree-node']/ol/li/ol/li[3]/ol/li[1]/span/label/span[1]",
-        "Exel File.doc": "//*[@id='tree-node']/ol/li/ol/li[3]/ol/li[2]/span/label/span[1]",
+        "Home": "//*[@id='tree-node-home']/parent::*//span[@class='rct-checkbox']",
+        "Desktop": "//*[@id='tree-node-desktop']/parent::*//span[@class='rct-checkbox']",
+        "Notes": "//*[@id='tree-node-notes']/parent::*//span[@class='rct-checkbox']",
+        "Commands": "//*[@id='tree-node-commands']/parent::*//span[@class='rct-checkbox']",
+        "Documents": "//*[@id='tree-node-documents']/parent::*//span[@class='rct-checkbox']",
+        "WorkSpace": "//*[@id='tree-node-workspace']/parent::*//span[@class='rct-checkbox']",
+        "React": "//*[@id='tree-node-react']/parent::*//span[@class='rct-checkbox']",
+        "Angular": "//*[@id='tree-node-angular']/parent::*//span[@class='rct-checkbox']",
+        "Veu": "//*[@id='tree-node-veu']/parent::*//span[@class='rct-checkbox']",
+        "Office": "//*[@id='tree-node-office']/parent::*//span[@class='rct-checkbox']",
+        "Public": "//*[@id='tree-node-public']/parent::*//span[@class='rct-checkbox']",
+        "Private": "//*[@id='tree-node-private']/parent::*//span[@class='rct-checkbox']",
+        "Classified": "//*[@id='tree-node-classified']/parent::*//span[@class='rct-checkbox']",
+        "General": "//*[@id='tree-node-general']/parent::*//span[@class='rct-checkbox']",
+        "Downloads": "//*[@id='tree-node-downloads']/parent::*//span[@class='rct-checkbox']",
+        "Word File.doc": "//*[@id='tree-node-worldFile']/parent::*//span[@class='rct-checkbox']",
+        "Exel File.doc": "//*[@id='tree-node-exelFile']/parent::*//span[@class='rct-checkbox']",
     }
 
     UNDER_TREE_ITEM_LOCATOR = {
@@ -72,29 +73,32 @@ class CheckboxPage:
     def collapse_all(self):
         self.demoqa_app.click(self.COLLAPSE_ALL_BUTTON)
 
-    def check_item(self, key):
+    def check_checkbox(self, key):
         checkbox_locator = self.CHECKBOX_ITEM_LOCATOR[key]
+
         self.demoqa_app.check(checkbox_locator)
+        self.demoqa_app.toBeChecked(checkbox_locator)
         logger.info(f"For item: {key} checkbox is checked")
+
         return self
 
-    def uncheck_item(self, key):
+    def uncheck_checkbox(self, key):
         checkbox_locator = self.CHECKBOX_ITEM_LOCATOR[key]
         self.demoqa_app.uncheck(checkbox_locator)
         logger.info(f"For item: {key} checkbox is unchecked")
         return self
 
-    def check_item_title_presence_under_the_tree(self, expected_title_of_checked_item):
+    def expect_item_title_presence_under_the_tree(self, expected_title_of_checked_item):
         locator = self.demoqa_app.page.locator(
             self.UNDER_TREE_ITEM_LOCATOR[expected_title_of_checked_item]
         )
-        expect(locator).to_be_visible(timeout=10000)
-
         actual_title = locator.text_content()
         logger.info(
             f"Actual title of checked item with locator {locator}: {actual_title}"
         )
-        expect(locator).to_contain_text(expected_title_of_checked_item)
+        
+        BasePage.expect_text_appears(locator, expected_title_of_checked_item)
         logger.info(
             f"{expected_title_of_checked_item} item is present under the item's tree."
         )
+        

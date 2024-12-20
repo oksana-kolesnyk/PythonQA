@@ -42,7 +42,7 @@ def test_url_links_on_main_page(demoqa_app):
 
 
 @pytest.mark.ui_demoqa
-def test_check_data_presence_under_form(demoqa_app):
+def test_expect_data_presence_under_form(demoqa_app):
     demoqa_app.text_box_page.go_to_text_box_page()
 
     DATA = {
@@ -67,7 +67,7 @@ def test_check_data_presence_under_form(demoqa_app):
     }
 
     for key in UNDERFORM_LOCATORS:
-        demoqa_app.text_box_page.check_data_presence(UNDERFORM_LOCATORS[key], DATA[key])
+        demoqa_app.text_box_page.expect_data_presence(UNDERFORM_LOCATORS[key], DATA[key])
         logger.info(f"Such data as {key} is present under form.")
 
 
@@ -83,7 +83,7 @@ def test_check_data_presence_under_form(demoqa_app):
 def test_Home_checkbox_checking(demoqa_app):
     demoqa_app.checkbox_page.go_to_checkbox_page()
     demoqa_app.checkbox_page.expand_all()
-    demoqa_app.checkbox_page.check_item("Home")
+    demoqa_app.checkbox_page.check_checkbox("Home")
 
     EXPECTED_TITLE = [
         "home",
@@ -106,11 +106,8 @@ def test_Home_checkbox_checking(demoqa_app):
     ]
 
     for key in EXPECTED_TITLE:
-        demoqa_app.checkbox_page.check_item_title_presence_under_the_tree(key)
+        demoqa_app.checkbox_page.expect_item_title_presence_under_the_tree(key)
         logger.info(f"For {key} URL is as expected: {key}")
-
-
-# demoqa_app.checkbox_page.uncheck_item("Home")
 
 
 @pytest.mark.ui_demoqa
@@ -118,16 +115,14 @@ def test_Office_checkbox_checking(demoqa_app):
 
     demoqa_app.checkbox_page.go_to_checkbox_page()
     demoqa_app.checkbox_page.expand_all()
-    demoqa_app.checkbox_page.check_item("Office")
+    demoqa_app.checkbox_page.check_checkbox("Office")
 
     EXPECTED_TITLE = ["office", "public", "private", "classified", "general"]
 
     for key in EXPECTED_TITLE:
-        demoqa_app.checkbox_page.check_item_title_presence_under_the_tree(key)
+        demoqa_app.checkbox_page.expect_item_title_presence_under_the_tree(key)
         logger.info(f"For {key} URL is as expected: {key}")
 
-
-# demoqa_app.checkbox_page.uncheck_item("Office")
 
 """
 Перейти на DemoQA.
@@ -139,12 +134,12 @@ def test_Office_checkbox_checking(demoqa_app):
 
 
 @pytest.mark.ui_demoqa
-def test_check_message_if_select_radio_button(demoqa_app):
+def test_expect_message_if_select_radio_button(demoqa_app):
     demoqa_app.radio_button_page.go_to_radiobutton_page()
 
     for key in ["Yes", "Impressive"]:
-        demoqa_app.radio_button_page.click_radiobutton(key)
-        demoqa_app.radio_button_page.check_message_text(key)
+        demoqa_app.radio_button_page.check_radiobutton(key)
+        demoqa_app.radio_button_page.expect_message_text(key)
 
 
 @pytest.mark.ui_demoqa
@@ -152,10 +147,7 @@ def test_check_click_on_disabled_radio_button(demoqa_app):
     button = "No"
 
     demoqa_app.radio_button_page.go_to_radiobutton_page()
-    demoqa_app.radio_button_page.click_radiobutton(button)
-
-
-# test to check status of checkbox
+    demoqa_app.radio_button_page.check_radiobutton(button)
 
 
 """
@@ -168,19 +160,56 @@ def test_check_click_on_disabled_radio_button(demoqa_app):
 
 
 @pytest.mark.ui_demoqa
-def test_check_text_appears_if_select_element_in_select_value_option_drop_down(demoqa_app):
+def test_check_text_appears_if_select_element_in_select_value_option_drop_down(
+    demoqa_app,
+):
 
     demoqa_app.widgets_page.go_to_widgets_page()
     demoqa_app.widgets_page.click_on_select_menu()
     demoqa_app.select_menu_page.check_select_menu_url()
     demoqa_app.select_menu_page.select_in_select_value_option()
     demoqa_app.select_menu_page.check_selected_in_select_value_option_text_appears()
-    
+
+
 """
 Перетягнути елемент "Drag me" на зону "Drop here".
 Очікуваний результат: З'являється повідомлення "Dropped!".
 """
+
+
 @pytest.mark.ui_demoqa
-def test_check_message_after_drag_and_drop_element(demoqa_app):
+def test_expect_message_after_drag_and_drop_element(demoqa_app):
     demoqa_app.droppable_page.go_to_droppable_page()
     demoqa_app.droppable_page.drag_and_drop_the_Drag_Me_item()
+
+
+"""
+Натиснути на "Elements".
+Обрати "Buttons".
+Виконати подвійний клік на кнопку.
+Виконати правий клік на іншу кнопку.
+Очікуваний результат: Підтверджувальні повідомлення для кожної дії відображаються на сторінці.
+"""
+
+
+@pytest.mark.ui_demoqa
+@pytest.mark.parametrize(
+    "check_func",
+    [
+        "expect_text_after_double_click_on_button",
+        "expect_text_after_click_on_button",
+        "expect_text_after_right_click_on_button",
+    ],
+    ids=[
+        "test_double_click_on_button",
+        "test_click_on_button",
+        "test_right_click_on_button",
+    ],
+) 
+def test_expect_message_after_click_on_the_button(demoqa_app, check_func):
+    demoqa_app.buttons_page.go_to_buttons_page()
+    func = getattr(demoqa_app.buttons_page, check_func)
+    assert func()
+    
+    
+

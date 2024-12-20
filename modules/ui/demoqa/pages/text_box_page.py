@@ -48,10 +48,11 @@ class TextboxPage:
         email = f"{local}@{domain}"
         return email
 
-    def check_data_presence(self, under_form_locator, expected_data):
+    def expect_data_presence(self, under_form_locator, expected_data):
         locator = self.demoqa_app.page.locator(under_form_locator)
-        expect(locator).to_be_visible(timeout=10000)
-
         actual_text = locator.text_content()
+    
         logger.info(f"Actual text for locator {under_form_locator}: {actual_text}")
-        expect(locator).to_contain_text(expected_data)
+        BasePage.expect_text_appears(locator, expected_data)
+
+

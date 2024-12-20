@@ -6,7 +6,7 @@ from logger import LOGGER
 from modules.api.clients.demoqa import Demoqa
 from modules.api.clients.github import GitHub
 from modules.common.database import Database
-from modules.ui.cosmosid.pages.login_page import LoginPage
+from modules.ui.cosmosid.login_page import LoginPage
 from modules.ui.demoqa.demoqa_app import DemoQaApp
 from modules.ui.page_objects.base_page import BasePage
 

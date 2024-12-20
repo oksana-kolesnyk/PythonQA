@@ -11,7 +11,7 @@ class WidgetsPage:
     URL = "https://demoqa.com/widgets"
 
     # ELEMENTS LOCATORS BLOCK
-    SELECT_MENU_LOCATOR = "//*[@id='item-8']"
+    SELECT_MENU_LOCATOR = "//*[@id='item-8'//*[@class='btn btn-light active']" # need to change xpath
 
     def __init__(self, demoqa_app) -> None:
         self.demoqa_app = demoqa_app
@@ -22,4 +22,4 @@ class WidgetsPage:
         self.demoqa_app.goto(WidgetsPage.URL)
 
     def click_on_select_menu(self):
-        self.demoqa_app.click_with_index(self.SELECT_MENU_LOCATOR, 1)
+        self.demoqa_app.click(self.SELECT_MENU_LOCATOR)

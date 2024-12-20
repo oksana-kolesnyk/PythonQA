@@ -6,6 +6,7 @@ from modules.ui.demoqa.pages.select_menu import SelectmenuPage
 from modules.ui.demoqa.pages.text_box_page import TextboxPage
 from modules.ui.demoqa.pages.widgets_page import WidgetsPage
 from modules.ui.demoqa.pages.droppable_page import DroppablePage
+from modules.ui.demoqa.pages.buttons_page import ButtonsPage
 
 
 class DemoQaApp(BasePage):
@@ -19,3 +20,4 @@ class DemoQaApp(BasePage):
         self.widgets_page = WidgetsPage(self)
         self.select_menu_page = SelectmenuPage(self)
         self.droppable_page = DroppablePage(self)
+        self.buttons_page = ButtonsPage(self)
