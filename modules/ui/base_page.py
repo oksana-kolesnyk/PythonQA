@@ -38,7 +38,6 @@ class BasePage:
     def right_click(self, locator, button="right"):
         self.page.locator(locator).click(button=button)   
 
-
     def fill(self, locator, text):
         element = self.page.locator(locator)
         element.fill(text)
